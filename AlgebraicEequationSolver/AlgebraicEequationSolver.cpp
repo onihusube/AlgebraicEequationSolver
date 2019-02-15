@@ -44,5 +44,18 @@ namespace AlgebraicEequationSolver
 				Assert::AreEqual(0.0, x3.real());
 			}
 		}
+
+
+		TEST_METHOD(QuarticEquationTest) {
+
+			{
+				//•¡“ñŽŸŽ®
+				auto [x1, x2, x3, x4] = AESolver::SolveQuarticEquation(1.0, -12.0, 49.0, -78.0, 40.0);
+				Assert::IsTrue(1.0 == x1.real());
+				Assert::IsTrue(2.0 == x2.real());
+				Assert::IsTrue(4.0 == x3.real());
+				Assert::IsTrue(5.0 == x4.real());
+			}
+		}
 	};
 }
