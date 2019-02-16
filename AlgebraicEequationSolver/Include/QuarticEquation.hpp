@@ -29,38 +29,57 @@ namespace AESolver {
 		}
 
 		//tの式の各係数を求める
-		//t^3 -(1/2)pt^2-rt-(1/8)q^2+(1/2)pr = 0
-		//t^3 + at^2 + bt + c = 0として名前付け
+		//t^3 -pt^2-4rt+(4pr-q^2) = 0
 
-		const auto half_p = T(0.5) * p;
-		const auto a = -half_p;
-		const auto b = -r;
-		const auto c = T(0.125) * q * q + half_p * r;
+		const auto r4 = T(4.0)*r;
+		const auto c =r4*p - q * q;
 
 		std::complex<T> t_c{};
 
 		//tのうち実数のものを選択
-		std::tie(t_c, std::ignore, std::ignore) = SolveCubicEquation(a, b, c);
-
+		std::tie(t_c, std::ignore, std::ignore) = SolveCubicEquation(-p, -r4, c);
+		
 		const auto t = t_c.real();
 
 		//m, nを求める
 
-		//2t-p
-		const auto t2mp = t + t - p;
+		//t-p
+		const auto t_p = t - p;
 
-		//m = √(2t-p)
-		const auto m = std::sqrt(T(2.0) * t - p);
+		if (T(0.0) <= t_p) {
+			//m = √(t-p)
+			const auto m = std::sqrt(t_p);
 
-		//n = -q(√(2t-p))/2(2t-p)
-		const auto n = -q * m / (T(2.0) * t2mp);
+			//n = q/2√(t-p)
+			const auto n = q / (T(2.0)*m);
 
-		//2つの二次式を解く！
+			//t/2
+			const auto half_t = T(0.5)*t;
 
-		auto&& y_12 = SolveQuadraticEquation(T(1.0), m, t + n);
-		auto&& y_34 = SolveQuadraticEquation(T(1.0), -m, t - n);
+			//2つの二次式を解く！
+			auto&& y_12 = SolveQuadraticEquation(T(1.0),  m, half_t - n);
+			auto&& y_34 = SolveQuadraticEquation(T(1.0), -m, half_t + n);
 
-		return std::tuple_cat(std::move(y_12), std::move(y_34));
+			return std::tuple_cat(std::move(y_12), std::move(y_34));
+		}
+		else {
+			//負の数の平方根を求めなければならない場合
+
+			//m = √(t-p)
+			const std::complex<T> m = { 0.0, std::sqrt(-t_p) };
+
+			//n = q/2√(t-p)
+			const auto n = q / (T(2.0)*m);
+
+			//t/2
+			const auto half_t = T(0.5)*t;
+
+			//複素係数二次方程式
+			auto&& y_12 = SolveQuadraticEquation({ T(1.0) },  m, half_t - n);
+			auto&& y_34 = SolveQuadraticEquation({ T(1.0) }, -m, half_t + n);
+
+			return std::tuple_cat(std::move(y_12), std::move(y_34));
+		}
 	}
 
 	template<typename T>
