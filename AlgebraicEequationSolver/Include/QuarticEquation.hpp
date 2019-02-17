@@ -65,7 +65,7 @@ namespace AESolver {
 		else {
 			//負の数の平方根を求めなければならない場合
 
-			//m = √(t-p)
+			//m = i√-(t-p)
 			const std::complex<T> m = { 0.0, std::sqrt(-t_p) };
 
 			//n = q/2√(t-p)
