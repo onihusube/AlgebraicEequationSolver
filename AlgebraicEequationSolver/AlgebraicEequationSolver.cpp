@@ -28,7 +28,7 @@ namespace AlgebraicEequationSolver
 
 			{
 				//桁落ち対策のチェック
-				auto[x1, x2] = AESolver::SolveQuadraticEquation(0.2876, -53.14, 9.872);
+				auto[x1, x2] = AESolver::solve_nth_degree_equation(0.2876, -53.14, 9.872);
 
 				Assert::AreEqual(184.584554016612735, x1.real(), 1.0E-13);
 				Assert::AreEqual(0.185960587003398633, x2.real(), 1.0E-16);
@@ -63,7 +63,7 @@ namespace AlgebraicEequationSolver
 			}
 
 			{
-				auto [x1, x2, x3] = AESolver::SolveCubicEquation(0.0, 3.0, 14.0, 15.0);
+				auto [x1, x2, x3] = AESolver::solve_nth_degree_equation(0.0, 3.0, 14.0, 15.0);
 				Assert::AreEqual(-1.6666666666667, x1.real(), 1.0E-8);
 				Assert::AreEqual(-3.0, x2.real());
 				Assert::AreEqual(0.0, x3.real());
@@ -107,7 +107,7 @@ namespace AlgebraicEequationSolver
 			}
 
 			{
-				auto[x1, x2, x3, x4] = AESolver::SolveQuarticEquation(1.0, 1.0, 1.0, 1.0, 0.0);
+				auto[x1, x2, x3, x4] = AESolver::solve_nth_degree_equation(1.0, 1.0, 1.0, 1.0, 0.0);
 
 				Assert::AreEqual(0.0, x1.real(), 1.0E-8);
 				Assert::AreEqual(-1.0, x2.real(), 1.0E-8);

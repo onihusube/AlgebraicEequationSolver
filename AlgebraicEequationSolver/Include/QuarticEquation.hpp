@@ -30,16 +30,14 @@ namespace AESolver {
 
 		//tの式の各係数を求める
 		//t^3 -pt^2-4rt+(4pr-q^2) = 0
-
 		const auto r4 = T(4.0)*r;
 		const auto c =r4*p - q * q;
 
-		std::complex<T> t_c{};
-
 		//tのうち実数のものを選択
-		std::tie(t_c, std::ignore, std::ignore) = SolveCubicEquation(-p, -r4, c);
+		std::complex<T> t_r{};
+		std::tie(t_r, std::ignore, std::ignore) = SolveCubicEquation(-p, -r4, c);
 		
-		const auto t = t_c.real();
+		const auto t = t_r.real();
 
 		//m, nを求める
 
@@ -72,7 +70,7 @@ namespace AESolver {
 			const auto n = q / (T(2.0)*m);
 
 			//t/2
-			const auto half_t = T(0.5)*t;
+			const auto half_t = T(0.5)* t_r;
 
 			//複素係数二次方程式
 			auto&& y_12 = SolveQuadraticEquation({ T(1.0) },  m, half_t - n);

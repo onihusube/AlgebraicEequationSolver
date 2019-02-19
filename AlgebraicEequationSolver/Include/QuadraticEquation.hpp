@@ -26,7 +26,7 @@ namespace AESolver::traits {
 namespace AESolver {
 
 	template<typename T>
-	auto SolveLinearEquation(const T a, const T b) -> std::tuple<T> {
+	constexpr auto SolveLinearEquation(const T a, const T b) -> typename traits::complexs_tuple<1, T>::type {
 		//ax + b = 0
 		//x = -b / a
 		return { -a / b };
